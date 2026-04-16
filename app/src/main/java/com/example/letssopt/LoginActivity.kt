@@ -1,21 +1,25 @@
 package com.example.letssopt
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.jvm.java
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,19 +31,20 @@ class LoginActivity : ComponentActivity() {
 }
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(modifier: Modifier= Modifier) {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
+            .padding(horizontal = 20.dp)
+            .padding(top = 60.dp, bottom = 26.dp)
     ) {
-
-        Spacer(modifier = Modifier.height(60.dp))
-
         Text(
             text = "watcha",
             color = Color(0xFFE8003C),
@@ -56,28 +61,29 @@ fun LoginScreen() {
             color = Color.White,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 20.dp)
         )
 
         Spacer(modifier = Modifier.height(36.dp))
 
-        Text( text = "이메일",
+        Text(
+            text = "이메일",
             color = Color(0xFF999999),
             fontSize = 14.sp,
-            modifier = Modifier.padding(start = 20.dp)
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(3.dp))
 
-        TextField( value = email,
+        TextField(
+            value = email,
             onValueChange = { email = it },
             placeholder = {
-                Text("이메일 주소를 입력하세요",
+                Text(
+                    text = "이메일 주소를 입력하세요",
                     color = Color(0xFF666666))
                           },
             modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .fillMaxWidth() .height(52.dp),
+                .fillMaxWidth()
+                .height(52.dp),
             shape = RoundedCornerShape(8.dp),
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color(0xFF2A2A2A),
@@ -87,23 +93,25 @@ fun LoginScreen() {
 
         Spacer(modifier = Modifier.height(18.dp))
 
-        Text( text = "비밀번호",
+        Text(
+            text = "비밀번호",
             color = Color(0xFF999999),
             fontSize = 14.sp,
-            modifier = Modifier
-                .padding(start = 20.dp) )
+        )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(3.dp))
 
-        TextField( value = password,
+        TextField(
+            value = password,
             onValueChange = { password = it },
             placeholder = {
-                Text("비밀번호를 입력하세요",
-                    color = Color(0xFF666666))
-                          },
+                Text(
+                    text = "비밀번호를 입력하세요",
+                    color = Color(0xFF666666)
+                )
+            },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
-                .padding(horizontal = 20.dp)
                 .fillMaxWidth()
                 .height(52.dp),
             shape = RoundedCornerShape(8.dp),
@@ -114,36 +122,40 @@ fun LoginScreen() {
                 unfocusedIndicatorColor = Color.Transparent
             )
         )
+
         Spacer(modifier = Modifier.weight(1f))
 
         Text(
             text = "아직 계정이 없으신가요? 회원가입",
             color = Color(0xFF999999),
             fontSize = 14.sp,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable{
+                    val intent = Intent(context,SignUpActivity::class.java)
+                    context.startActivity(intent)
+                  },
             textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(37.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Button(
             onClick = { },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp)
                 .height(52.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFE8003C)
-            ), shape = RoundedCornerShape(8.dp)
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE8003C)),
+            shape = RoundedCornerShape(8.dp)
         ) {
-            Text( text = "로그인",
+            Text(
+                text = "로그인",
                 color = Color.White,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )
         }
 
-        Spacer(modifier = Modifier.height(20.dp))
     }
 }
 
