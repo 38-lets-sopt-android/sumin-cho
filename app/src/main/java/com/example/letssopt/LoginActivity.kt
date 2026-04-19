@@ -3,8 +3,10 @@ package com.example.letssopt
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -22,19 +24,60 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.letssopt.ui.theme.LETSSOPTTheme
 import kotlin.jvm.java
 
 class LoginActivity : ComponentActivity() {
+    private var savedId: String? = null
+    private var savedPw: String? = null
+
+    private val signUpLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            savedId = result.data?.getStringExtra("userId")
+            savedPw = result.data?.getStringExtra("userPw")
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            LoginScreen()
+            LETSSOPTTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    LoginScreen(
+                        modifier = Modifier.padding(innerPadding),
+                        onSignUpClick = {
+                            val intent = Intent(this, SignUpActivity::class.java)
+                            signUpLauncher.launch(intent)
+                        },
+                        onLoginClick = { inputId, inputPw ->
+                            when {
+                                savedId == null || savedPw == null -> {
+                                    Toast.makeText(this, "회원가입을 먼저 해주세요", Toast.LENGTH_SHORT).show()
+                                }
+
+                                inputId == savedId && inputPw == savedPw -> {
+                                    val intent = Intent(this, MainActivity::class.java)
+                                    Toast.makeText(this, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
+                                    startActivity((intent))
+                                    finish()
+                                }
+                                else -> Toast.makeText(this, "다시 입력해주세요", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        )
+                }
+            }
         }
     }
 }
 
 @Composable
-fun LoginScreen(modifier: Modifier= Modifier) {
+fun LoginScreen(
+    modifier: Modifier= Modifier,
+    onSignUpClick: () -> Unit,
+    onLoginClick: (String, String) -> Unit,)
+{
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -147,17 +190,14 @@ fun LoginScreen(modifier: Modifier= Modifier) {
             fontSize = 14.sp,
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable{
-                    val intent = Intent(context,SignUpActivity::class.java)
-                    context.startActivity(intent)
-                  },
+                .clickable{onSignUpClick()},
             textAlign = TextAlign.Center
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = {},
+            onClick = {onLoginClick(email,password)},
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp),
@@ -180,6 +220,9 @@ fun LoginScreen(modifier: Modifier= Modifier) {
 @Composable
 fun PreviewLoginScreen() {
     MaterialTheme {
-        LoginScreen()
+        LoginScreen(
+            onSignUpClick = {},
+            onLoginClick = {_, _ ->}
+        )
     }
 }

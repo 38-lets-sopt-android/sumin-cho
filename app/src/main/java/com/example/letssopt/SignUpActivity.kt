@@ -1,5 +1,6 @@
 package com.example.letssopt
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
@@ -13,7 +14,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -47,7 +50,15 @@ class SignUpActivity : ComponentActivity() {
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     SignUpScreen(
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                        onSignUpComplete = { userId, userPw ->
+                            val resultIntent = Intent().apply {
+                                putExtra("userId", userId)
+                                putExtra("userPw", userPw)
+                            }
+                            setResult(RESULT_OK, resultIntent)
+                            finish()
+                        },
                     )
                 }
             }
@@ -57,17 +68,20 @@ class SignUpActivity : ComponentActivity() {
 
 @Composable
 fun SignUpScreen(
-    modifier: Modifier= Modifier
+    modifier: Modifier= Modifier,
+    onSignUpComplete: (String, String)-> Unit
 ) {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var checkPassword by remember { mutableStateOf("") }
     val context = LocalContext.current
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(scrollState)
             .background(Color.Black)
             .padding(horizontal = 20.dp)
             .padding(top = 60.dp, bottom = 26.dp)
@@ -208,7 +222,10 @@ fun SignUpScreen(
                     password != checkPassword -> {
                         Toast.makeText(context, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
                     }
-                    else -> Toast.makeText(context, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
+                    else -> {
+                        onSignUpComplete(email, password)
+                        Toast.makeText(context, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
+                    }
                 }
             },
             modifier = Modifier
@@ -234,6 +251,6 @@ fun SignUpScreen(
 @Composable
 private fun PreviewSignUpScreen() {
     MaterialTheme {
-        SignUpScreen()
+        SignUpScreen(onSignUpComplete = { _, _ -> })
     }
 }
