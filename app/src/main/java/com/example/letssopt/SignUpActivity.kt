@@ -29,6 +29,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -67,15 +69,16 @@ fun SignUpScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
+            .padding(horizontal = 20.dp)
+            .padding(top = 60.dp, bottom = 26.dp)
     ) {
-
-        Spacer(modifier = Modifier.height(60.dp))
 
         Text(
             text = "watcha",
+            fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+            fontWeight = FontWeight.Bold,
             color = Color(0xFFE8003C),
             fontSize = 36.sp,
-            fontWeight = FontWeight.Bold,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
         )
@@ -84,31 +87,34 @@ fun SignUpScreen(
 
         Text(
             text = "회원가입",
+            fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+            fontWeight = FontWeight.Bold,
             color = Color.White,
             fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 20.dp)
         )
 
         Spacer(modifier = Modifier.height(36.dp))
 
         Text(
             text = "이메일",
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            fontWeight = FontWeight.Normal,
             color = Color(0xFF999999),
             fontSize = 14.sp,
-            modifier = Modifier.padding(start = 20.dp)
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(3.dp))
 
         TextField(
             value = email,
             onValueChange = { email = it },
             placeholder = {
-                Text("이메일 주소를 입력하세요", color = Color(0xFF666666))
+                Text("이메일 주소를 입력하세요",
+                    color = Color(0xFF666666) ,
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    fontWeight = FontWeight.Normal,)
             },
             modifier = Modifier
-                .padding(horizontal = 20.dp)
                 .fillMaxWidth()
                 .height(52.dp),
             shape = RoundedCornerShape(8.dp),
@@ -124,22 +130,25 @@ fun SignUpScreen(
 
         Text(
             text = "비밀번호",
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            fontWeight = FontWeight.Normal,
             color = Color(0xFF999999),
             fontSize = 14.sp,
-            modifier = Modifier.padding(start = 20.dp)
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(3.dp))
 
         TextField(
             value = password,
             onValueChange = { password = it },
             placeholder = {
-                Text("비밀번호를 입력하세요", color = Color(0xFF666666))
+                Text("비밀번호를 입력하세요",
+                    color = Color(0xFF666666),
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    fontWeight = FontWeight.Normal,)
             },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
-                .padding(horizontal = 20.dp)
                 .fillMaxWidth()
                 .height(52.dp),
             shape = RoundedCornerShape(8.dp),
@@ -155,22 +164,25 @@ fun SignUpScreen(
 
         Text(
             text = "비밀번호 확인",
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            fontWeight = FontWeight.Normal,
             color = Color(0xFF999999),
             fontSize = 14.sp,
-            modifier = Modifier.padding(start = 20.dp)
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(3.dp))
 
         TextField(
             value = checkPassword,
             onValueChange = { checkPassword= it },
             placeholder = {
-                Text("비밀번호를 다시 입력하세요", color = Color(0xFF666666))
+                Text("비밀번호를 다시 입력하세요",
+                    color = Color(0xFF666666),
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    fontWeight = FontWeight.Normal,)
             },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
-                .padding(horizontal = 20.dp)
                 .fillMaxWidth()
                 .height(52.dp),
             shape = RoundedCornerShape(8.dp),
@@ -201,7 +213,6 @@ fun SignUpScreen(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp)
                 .height(52.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFE8003C)
@@ -210,13 +221,12 @@ fun SignUpScreen(
         ) {
             Text(
                 text = "회원가입",
+                fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+                fontWeight = FontWeight.Bold,
                 color = Color.White,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
+                fontSize = 16.sp
             )
         }
-
-        Spacer(modifier = Modifier.height(20.dp))
     }
 }
 

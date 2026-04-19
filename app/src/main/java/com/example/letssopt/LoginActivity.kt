@@ -2,6 +2,7 @@ package com.example.letssopt
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -13,6 +14,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -47,9 +50,10 @@ fun LoginScreen(modifier: Modifier= Modifier) {
     ) {
         Text(
             text = "watcha",
+            fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+            fontWeight = FontWeight.Bold,
             color = Color(0xFFE8003C),
             fontSize = 36.sp,
-            fontWeight = FontWeight.Bold,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
         )
@@ -58,15 +62,18 @@ fun LoginScreen(modifier: Modifier= Modifier) {
 
         Text(
             text = "이메일로 로그인",
+            fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+            fontWeight = FontWeight.Bold,
             color = Color.White,
             fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
         )
 
         Spacer(modifier = Modifier.height(36.dp))
 
         Text(
             text = "이메일",
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            fontWeight = FontWeight.Normal,
             color = Color(0xFF999999),
             fontSize = 14.sp,
         )
@@ -79,7 +86,10 @@ fun LoginScreen(modifier: Modifier= Modifier) {
             placeholder = {
                 Text(
                     text = "이메일 주소를 입력하세요",
-                    color = Color(0xFF666666))
+                    color = Color(0xFF666666) ,
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    fontWeight = FontWeight.Normal
+                )
                           },
             modifier = Modifier
                 .fillMaxWidth()
@@ -95,6 +105,8 @@ fun LoginScreen(modifier: Modifier= Modifier) {
 
         Text(
             text = "비밀번호",
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            fontWeight = FontWeight.Normal,
             color = Color(0xFF999999),
             fontSize = 14.sp,
         )
@@ -107,7 +119,9 @@ fun LoginScreen(modifier: Modifier= Modifier) {
             placeholder = {
                 Text(
                     text = "비밀번호를 입력하세요",
-                    color = Color(0xFF666666)
+                    color = Color(0xFF666666),
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    fontWeight = FontWeight.Normal
                 )
             },
             visualTransformation = PasswordVisualTransformation(),
@@ -128,6 +142,8 @@ fun LoginScreen(modifier: Modifier= Modifier) {
         Text(
             text = "아직 계정이 없으신가요? 회원가입",
             color = Color(0xFF999999),
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            fontWeight = FontWeight.Normal,
             fontSize = 14.sp,
             modifier = Modifier
                 .fillMaxWidth()
@@ -141,7 +157,7 @@ fun LoginScreen(modifier: Modifier= Modifier) {
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = { },
+            onClick = {},
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp),
@@ -150,9 +166,10 @@ fun LoginScreen(modifier: Modifier= Modifier) {
         ) {
             Text(
                 text = "로그인",
+                fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+                fontWeight = FontWeight.Bold,
                 color = Color.White,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
+                fontSize = 16.sp
             )
         }
 
