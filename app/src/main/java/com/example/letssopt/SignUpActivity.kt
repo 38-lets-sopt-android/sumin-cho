@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -122,15 +124,21 @@ fun SignUpScreen(
         TextField(
             value = email,
             onValueChange = { email = it },
+            textStyle = TextStyle(
+                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp,
+                color = Color(0xFFFFFFFF)
+            ),
             placeholder = {
                 Text("이메일 주소를 입력하세요",
                     color = Color(0xFF666666) ,
                     fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                    fontWeight = FontWeight.Normal,)
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 14.sp)
             },
             modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp),
+                .fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color(0xFF2A2A2A),
@@ -155,16 +163,22 @@ fun SignUpScreen(
         TextField(
             value = password,
             onValueChange = { password = it },
+            textStyle = TextStyle(
+                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp,
+                color = Color(0xFFFFFFFF)
+            ),
             placeholder = {
                 Text("비밀번호를 입력하세요",
                     color = Color(0xFF666666),
                     fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                    fontWeight = FontWeight.Normal,)
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 14.sp)
             },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp),
+                .fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color(0xFF2A2A2A),
@@ -189,16 +203,22 @@ fun SignUpScreen(
         TextField(
             value = checkPassword,
             onValueChange = { checkPassword= it },
+            textStyle = TextStyle(
+                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp,
+                color = Color(0xFFFFFFFF)
+            ),
             placeholder = {
                 Text("비밀번호를 다시 입력하세요",
                     color = Color(0xFF666666),
                     fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                    fontWeight = FontWeight.Normal,)
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 14.sp)
             },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp),
+                .fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color(0xFF2A2A2A),
@@ -229,8 +249,8 @@ fun SignUpScreen(
                 }
             },
             modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp),
+                .fillMaxWidth(),
+                contentPadding = PaddingValues(vertical = 17.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFE8003C)
             ),

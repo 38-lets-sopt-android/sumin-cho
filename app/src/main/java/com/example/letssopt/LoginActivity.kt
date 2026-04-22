@@ -16,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -126,17 +127,23 @@ fun LoginScreen(
         TextField(
             value = email,
             onValueChange = { email = it },
+            textStyle = TextStyle(
+                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp,
+                color = Color(0xFFFFFFFF)
+            ),
             placeholder = {
                 Text(
                     text = "이메일 주소를 입력하세요",
                     color = Color(0xFF666666) ,
                     fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                    fontWeight = FontWeight.Normal
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 14.sp
                 )
                           },
             modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp),
+                .fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color(0xFF2A2A2A),
@@ -159,18 +166,24 @@ fun LoginScreen(
         TextField(
             value = password,
             onValueChange = { password = it },
+            textStyle = TextStyle(
+                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp,
+                color = Color(0xFFFFFFFF)
+            ),
             placeholder = {
                 Text(
                     text = "비밀번호를 입력하세요",
                     color = Color(0xFF666666),
                     fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                    fontWeight = FontWeight.Normal
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 14.sp
                 )
             },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp),
+                .fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color(0xFF2A2A2A),
@@ -199,8 +212,8 @@ fun LoginScreen(
         Button(
             onClick = {onLoginClick(email,password)},
             modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp),
+                .fillMaxWidth(),
+                contentPadding = PaddingValues(vertical = 17.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE8003C)),
             shape = RoundedCornerShape(8.dp)
         ) {
