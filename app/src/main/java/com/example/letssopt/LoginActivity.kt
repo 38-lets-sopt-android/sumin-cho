@@ -40,8 +40,19 @@ class LoginActivity : ComponentActivity() {
             savedPw = result.data?.getStringExtra("userPw")
         }
     }
+    private val pref by lazy {
+        getSharedPreferences("login_prefs", MODE_PRIVATE)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val isAutoLogin = pref.getBoolean("autoLogin", false)
+
+        if (isAutoLogin) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+            return
+        }
         setContent {
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -58,6 +69,12 @@ class LoginActivity : ComponentActivity() {
                                 }
 
                                 inputId == savedId && inputPw == savedPw -> {
+                                    val editor = pref.edit()
+                                    editor.putString("userId", inputId)
+                                    editor.putString("userPw", inputPw)
+                                    editor.putBoolean("autoLogin", true)
+                                    editor.apply()
+
                                     val intent = Intent(this, MainActivity::class.java)
                                     Toast.makeText(this, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
                                     startActivity((intent))
