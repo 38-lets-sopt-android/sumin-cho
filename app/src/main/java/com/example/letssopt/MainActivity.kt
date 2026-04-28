@@ -44,7 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.letssopt.ui.theme.LETSSOPTTheme
-
+import androidx.lifecycle.viewmodel.compose.viewModel
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,43 +62,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(modifier: Modifier = Modifier)
+fun MainScreen(
+    modifier: Modifier = Modifier,
+    viewModel: MainViewModel = viewModel()
+)
 {
-    val posterList = listOf(
-        R.drawable.image1,
-        R.drawable.image2,
-        R.drawable.image3,
-        R.drawable.image4,
-        R.drawable.image5,
-        R.drawable.image6
-    )
-    val girlList = listOf(
-        R.drawable.girl_image1,
-        R.drawable.girl_image2,
-        R.drawable.girl_image3,
-        R.drawable.girl_image4,
-        R.drawable.girl_image5,
-        R.drawable.girl_image6,
-        R.drawable.girl_image7,
-        R.drawable.girl_image8,
-        R.drawable.girl_image9,
-        R.drawable.girl_image10
-    )
-    val manList = listOf(
-        R.drawable.man_image7,
-        R.drawable.man_image8,
-        R.drawable.man_image9,
-        R.drawable.man_image10,
-        R.drawable.man_image11,
-        R.drawable.man_image12,
-        R.drawable.man_image1,
-        R.drawable.man_image2,
-        R.drawable.man_image3,
-        R.drawable.man_image4,
-        R.drawable.man_image5,
-        R.drawable.man_image6
-    )
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -162,7 +130,7 @@ fun MainScreen(modifier: Modifier = Modifier)
             modifier = Modifier.padding(bottom = 26.dp),
             horizontalArrangement = Arrangement.spacedBy (16.dp)
         ){
-            items(posterList) {images ->
+            items(viewModel.posterList) {images ->
                 Image(
                     painter = painterResource(id = images),
                     contentDescription = null,
@@ -214,7 +182,7 @@ fun MainScreen(modifier: Modifier = Modifier)
             contentPadding = PaddingValues(horizontal = 8.dp)
         )
         {
-            items(girlList) {images ->
+            items(viewModel.girlList) {images ->
                 Image(
                     painter = painterResource(id = images),
                     contentDescription = null,
@@ -225,6 +193,7 @@ fun MainScreen(modifier: Modifier = Modifier)
                 )
             }
         }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -257,7 +226,7 @@ fun MainScreen(modifier: Modifier = Modifier)
             contentPadding = PaddingValues(horizontal = 8.dp)
         )
         {
-            items(manList) {images ->
+            items(viewModel.manList) {images ->
                 Image(
                     painter = painterResource(id = images),
                     contentDescription = null,
