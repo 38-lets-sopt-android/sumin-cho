@@ -46,6 +46,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.letssopt.ui.theme.LETSSOPTTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.foundation.layout.navigationBarsPadding
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,9 +146,9 @@ fun MainScreen(
             modifier = Modifier.padding(bottom = 26.dp),
             horizontalArrangement = Arrangement.spacedBy (16.dp)
         ){
-            items(viewModel.mainbannerList) { images ->
+            items(viewModel.mainbannerList) { image ->
                 Image(
-                    painter = painterResource(id = images),
+                    painter = painterResource(id = image),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -198,9 +200,9 @@ fun MainScreen(
             contentPadding = PaddingValues(horizontal = 8.dp)
         )
         {
-            items(viewModel.whatgorithmeList) { images ->
+            items(viewModel.whatgorithmeList) { image ->
                 Image(
-                    painter = painterResource(id = images),
+                    painter = painterResource(id = image),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -242,9 +244,9 @@ fun MainScreen(
             contentPadding = PaddingValues(horizontal = 8.dp)
         )
         {
-            items(viewModel.releasedList) {images ->
+            items(viewModel.releasedList) {image ->
                 Image(
-                    painter = painterResource(id = images),
+                    painter = painterResource(id = image),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -253,8 +255,8 @@ fun MainScreen(
                 )
             }
         }
-            }
-        }
+    }
+}
 @Composable
 fun CategoryScreen(padding : PaddingValues) {
     Text(
@@ -299,7 +301,8 @@ fun BottomNavigationBar(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.Black)
-            .padding(vertical = 12.dp),
+            .navigationBarsPadding()
+            .padding(vertical = 11.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         NavItem(
@@ -352,10 +355,11 @@ fun NavItem(
         Spacer(modifier = Modifier.height(7.dp))
 
         Text(
-            text,
+            text = text,
             color = if (isSelected) Color.White
                     else Color(0xFF333333),
-            fontSize = 12.sp)
+            fontSize = 12.sp
+        )
     }
 }
 
