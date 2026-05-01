@@ -53,7 +53,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     ksp(libs.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

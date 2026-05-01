@@ -150,9 +150,9 @@ fun MainScreen(
             modifier = Modifier.padding(bottom = 26.dp),
             horizontalArrangement = Arrangement.spacedBy (16.dp)
         ){
-            items(viewModel.mainbannerList) { image ->
+            items(viewModel.getMainBannerList()) { item ->
                 Image(
-                    painter = painterResource(id = image),
+                    painter = painterResource(id = item.image),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -204,9 +204,9 @@ fun MainScreen(
             contentPadding = PaddingValues(horizontal = 8.dp)
         )
         {
-            items(viewModel.whatgorithmeList) { image ->
+            items(viewModel.getWhatgorithmeList()) { item ->
                 Image(
-                    painter = painterResource(id = image),
+                    painter = painterResource(id = item.image),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -248,9 +248,9 @@ fun MainScreen(
             contentPadding = PaddingValues(horizontal = 8.dp)
         )
         {
-            items(viewModel.releasedList) {image ->
+            items(viewModel.getReleasedList()) {item ->
                 Image(
-                    painter = painterResource(id = image),
+                    painter = painterResource(id = item.image),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
