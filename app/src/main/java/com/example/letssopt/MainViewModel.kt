@@ -3,38 +3,38 @@ package com.example.letssopt
 import androidx.lifecycle.ViewModel
 
 class MainViewModel: ViewModel(){
-    val posterList = listOf(
-        R.drawable.image1,
-        R.drawable.image2,
-        R.drawable.image3,
-        R.drawable.image4,
-        R.drawable.image5,
-        R.drawable.image6
+    val mainbannerList = listOf(
+        R.drawable.img_mainbannerlist_1,
+        R.drawable.img_mainbannerlist_2,
+        R.drawable.img_mainbannerlist_3,
+        R.drawable.img_mainbannerlist_4,
+        R.drawable.img_mainbannerlist_5,
+        R.drawable.img_mainbannerlist_6
     )
-    val girlList = listOf(
-        R.drawable.girl_image1,
-        R.drawable.girl_image2,
-        R.drawable.girl_image3,
-        R.drawable.girl_image4,
-        R.drawable.girl_image5,
-        R.drawable.girl_image6,
-        R.drawable.girl_image7,
-        R.drawable.girl_image8,
-        R.drawable.girl_image9,
-        R.drawable.girl_image10
+    val whatgorithmeList = listOf(
+        R.drawable.img_whatgorithmelist_1,
+        R.drawable.img_whatgorithmelist_2,
+        R.drawable.img_whatgorithmelist_3,
+        R.drawable.img_whatgorithmelist_4,
+        R.drawable.img_whatgorithmelist_5,
+        R.drawable.img_whatgorithmelist_6,
+        R.drawable.img_whatgorithmelist_7,
+        R.drawable.img_whatgorithmelist_8,
+        R.drawable.img_whatgorithmelist_9,
+        R.drawable.img_whatgorithmelist_10
     )
-    val manList = listOf(
-        R.drawable.man_image7,
-        R.drawable.man_image8,
-        R.drawable.man_image9,
-        R.drawable.man_image10,
-        R.drawable.man_image11,
-        R.drawable.man_image12,
-        R.drawable.man_image1,
-        R.drawable.man_image2,
-        R.drawable.man_image3,
-        R.drawable.man_image4,
-        R.drawable.man_image5,
-        R.drawable.man_image6
+    val releasedList = listOf(
+        R.drawable.img_releasedlist_7,
+        R.drawable.img_releasedlist_8,
+        R.drawable.img_releasedlist_9,
+        R.drawable.img_releasedlist_10,
+        R.drawable.img_releasedlist_11,
+        R.drawable.img_releasedlist_12,
+        R.drawable.img_releasedlist_1,
+        R.drawable.img_releasedlist_2,
+        R.drawable.img_releasedlist_3,
+        R.drawable.img_releasedlist_4,
+        R.drawable.img_releasedlist_5,
+        R.drawable.img_releasedlist_6
     )
 }
