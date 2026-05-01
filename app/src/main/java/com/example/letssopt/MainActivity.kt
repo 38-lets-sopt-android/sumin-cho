@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -342,20 +343,21 @@ fun BottomNavigationBar(
 @Composable
 fun NavItem(
     text: String,
-    iconRes: Int,
+    @DrawableRes iconRes: Int,
     isSelected: Boolean,
     onClick:() -> Unit)
     {
-    Column(horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.clickable { onClick() })
+    Column(
+        modifier = Modifier.clickable { onClick() },
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(7.dp)
+            )
     {
         Icon(
             painter = painterResource(id = iconRes),
             contentDescription = null,
             tint = if (isSelected) Color.White else Color(0xFF333333)
         )
-
-        Spacer(modifier = Modifier.height(7.dp))
 
         Text(
             text = text,
