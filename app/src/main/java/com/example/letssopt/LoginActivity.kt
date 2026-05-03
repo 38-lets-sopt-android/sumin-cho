@@ -26,47 +26,60 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.letssopt.ui.theme.LETSSOPTTheme
-import kotlin.jvm.java
+
+const val USER_ID_KEY = "userId"
+const val USER_PW_KEY = "userPw"
+const val AUTO_LOGIN = "autoLogin"
 
 class LoginActivity : ComponentActivity() {
-    private var savedId: String? = null
-    private var savedPw: String? = null
-
-    private val signUpLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            savedId = result.data?.getStringExtra("userId")
-            savedPw = result.data?.getStringExtra("userPw")
-        }
+    private val pref by lazy {
+        getSharedPreferences("login_prefs", MODE_PRIVATE)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val isAutoLogin = pref.getBoolean(AUTO_LOGIN, false)
+
+        if (isAutoLogin) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+            return
+        }
         setContent {
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     LoginScreen(
                         modifier = Modifier.padding(innerPadding),
+
                         onSignUpClick = {
                             val intent = Intent(this, SignUpActivity::class.java)
-                            signUpLauncher.launch(intent)
+                            startActivity(intent)
                         },
+
                         onLoginClick = { inputId, inputPw ->
+                            val savedId = pref.getString(USER_ID_KEY, null)
+                            val savedPw = pref.getString(USER_PW_KEY, null)
+
                             when {
                                 savedId == null || savedPw == null -> {
                                     Toast.makeText(this, "회원가입을 먼저 해주세요", Toast.LENGTH_SHORT).show()
                                 }
 
                                 inputId == savedId && inputPw == savedPw -> {
+                                    val editor = pref.edit()
+                                    editor.putBoolean(AUTO_LOGIN, true)
+                                    editor.apply()
+
                                     val intent = Intent(this, MainActivity::class.java)
                                     Toast.makeText(this, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
                                     startActivity((intent))
                                     finish()
                                 }
+
                                 else -> Toast.makeText(this, "다시 입력해주세요", Toast.LENGTH_SHORT).show()
                             }
                         }
-                        )
+                    )
                 }
             }
         }
@@ -75,10 +88,10 @@ class LoginActivity : ComponentActivity() {
 
 @Composable
 fun LoginScreen(
-    modifier: Modifier= Modifier,
+    modifier: Modifier = Modifier,
     onSignUpClick: () -> Unit,
-    onLoginClick: (String, String) -> Unit,)
-{
+    onLoginClick: (String, String) -> Unit,
+) {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -136,12 +149,12 @@ fun LoginScreen(
             placeholder = {
                 Text(
                     text = "이메일 주소를 입력하세요",
-                    color = Color(0xFF666666) ,
+                    color = Color(0xFF666666),
                     fontFamily = FontFamily(Font(R.font.pretendard_regular)),
                     fontWeight = FontWeight.Normal,
                     fontSize = 14.sp
                 )
-                          },
+            },
             modifier = Modifier
                 .fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
@@ -149,7 +162,9 @@ fun LoginScreen(
                 focusedContainerColor = Color(0xFF2A2A2A),
                 unfocusedContainerColor = Color(0xFF2A2A2A),
                 focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent ) )
+                unfocusedIndicatorColor = Color.Transparent
+            )
+        )
 
         Spacer(modifier = Modifier.height(18.dp))
 
@@ -203,17 +218,17 @@ fun LoginScreen(
             fontSize = 14.sp,
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable{onSignUpClick()},
+                .clickable { onSignUpClick() },
             textAlign = TextAlign.Center
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = {onLoginClick(email,password)},
+            onClick = { onLoginClick(email, password) },
             modifier = Modifier
                 .fillMaxWidth(),
-                contentPadding = PaddingValues(vertical = 17.dp),
+            contentPadding = PaddingValues(vertical = 17.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE8003C)),
             shape = RoundedCornerShape(8.dp)
         ) {
@@ -235,7 +250,7 @@ fun PreviewLoginScreen() {
     MaterialTheme {
         LoginScreen(
             onSignUpClick = {},
-            onLoginClick = {_, _ ->}
+            onLoginClick = { _, _ -> }
         )
     }
 }
