@@ -1,6 +1,8 @@
 package com.example.letssopt
 
+import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -50,6 +52,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,40 +65,107 @@ class MainActivity : ComponentActivity() {
         setContent {
             LETSSOPTTheme {
 
-                var selectedTab by remember { mutableStateOf(0) }
+                val navController = rememberNavController()
+                var selectedTab by remember { mutableStateOf("main") }
 
                 Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    containerColor = Color.Black,
                     bottomBar = {
                         BottomNavigationBar(
+                            navController = navController,
                             selectedTab = selectedTab,
                             onTabSelected = { selectedTab = it }
                         )
                     }
-                ) { innerPadding ->
+                ) { padding ->
 
-                    when (selectedTab) {
-                        0 -> MainScreen(modifier = Modifier.padding(innerPadding))
-                        1 -> CategoryScreen(innerPadding)
-                        2 -> WebtoonScreen(innerPadding)
-                        3 -> SearchScreen(innerPadding)
-                        4 -> SaveScreen(innerPadding)
+                    NavHost(
+                        navController = navController,
+                        startDestination = "login",
+                        modifier = Modifier.padding(padding)
+                    ) {
+
+                        composable("login") {
+                            val context = LocalContext.current
+                            val pref =
+                                context.getSharedPreferences("login_prefs", Context.MODE_PRIVATE)
+
+                            LoginScreen(
+                                onSignUpClick = {
+                                    navController.navigate("signup")
+                                },
+                                onLoginClick = { inputId, inputPw ->
+
+                                    val savedId = pref.getString(USER_ID_KEY, null)
+                                    val savedPw = pref.getString(USER_PW_KEY, null)
+
+                                    when {
+                                        savedId == null || savedPw == null -> {
+                                            Toast.makeText(
+                                                context,
+                                                "회원가입을 먼저 해주세요",
+                                                Toast.LENGTH_SHORT
+                                            )
+                                                .show()
+                                        }
+
+                                        inputId == savedId && inputPw == savedPw -> {
+                                            pref.edit()
+                                                .putBoolean(AUTO_LOGIN, true)
+                                                .apply()
+
+                                            Toast.makeText(
+                                                context,
+                                                "로그인에 성공했습니다",
+                                                Toast.LENGTH_SHORT
+                                            )
+                                                .show()
+
+                                            navController.navigate("main") {
+                                                popUpTo("login") { inclusive = true }
+                                            }
+                                        }
+
+                                        else -> {
+                                            Toast.makeText(context, "다시 입력해주세요", Toast.LENGTH_SHORT)
+                                                .show()
+                                        }
+                                    }
+                                }
+                            )
+                        }
+
+                        composable("signup") {
+                            SignUpScreen(
+                                onSignUpComplete = { _, _ ->
+                                    navController.navigate("main")
+                                }
+                            )
+                        }
+
+                        composable("main") {
+                                MainScreen()
+                            }
+                        composable("category") { CategoryScreen(PaddingValues(0.dp)) }
+
+                        composable("webtoon") { WebtoonScreen(PaddingValues(0.dp)) }
+
+                        composable("search") { SearchScreen(PaddingValues(0.dp)) }
+
+                        composable("save") { SaveScreen(PaddingValues(0.dp)) }
+                        }
                     }
                 }
             }
         }
     }
-}
 
 @Composable
-fun MainScreen(
-    modifier: Modifier = Modifier,
-    viewModel: MainViewModel = viewModel()
-)
-{
+fun MainScreen(modifier: Modifier = Modifier) {
+
+    val viewModel: MainViewModel = viewModel()
+
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
             .verticalScroll(rememberScrollState())
@@ -298,46 +372,55 @@ fun SaveScreen(padding: PaddingValues) {
 }
 @Composable
 fun BottomNavigationBar(
-    selectedTab: Int,
-    onTabSelected: (Int) -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.Black)
-            .navigationBarsPadding()
-            .padding(vertical = 11.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        NavItem(
-            "메인",
-            R.drawable.ic_bottom_bar_main_24,
-            selectedTab == 0
-        ) { onTabSelected(0) }
+    navController: NavHostController,
+    selectedTab: String,
+    onTabSelected: (String) -> Unit
+)
+{
+    Row{
+        NavItem("메인",
+            iconRes = R.drawable.ic_bottom_bar_main_24,
+            isSelected = selectedTab == "main",
+            onClick = {
+                onTabSelected("main")
+                navController.navigate("main")
+            }
+        )
 
-        NavItem(
-            "개별 구매",
-            R.drawable.ic_bottom_bar_category_24,
-            selectedTab == 1
-        ) { onTabSelected(1) }
+        NavItem("개별구매",
+            iconRes = R.drawable.ic_bottom_bar_category_24,
+            isSelected = selectedTab == "category",
+            onClick = {
+                onTabSelected("category")
+                navController.navigate("category")
+            }
+        )
 
-        NavItem(
-            "웹툰",
-            R.drawable.ic_bottom_bar_wallet_24,
-            selectedTab == 2
-        ) { onTabSelected(2) }
+        NavItem("웹툰",
+            iconRes = R.drawable.ic_bottom_bar_wallet_24,
+            isSelected = selectedTab == "webtoon",
+            onClick = {
+                onTabSelected("webtoon")
+                navController.navigate("webtoon")
+            }
+        )
 
-        NavItem(
-            "찾기",
-            R.drawable.ic_bottom_bar_search_24,
-            selectedTab == 3
-        ) { onTabSelected(3) }
+        NavItem("찾기",
+            iconRes = R.drawable.ic_bottom_bar_search_24,
+            isSelected = selectedTab == "search",
+            onClick = {
+                onTabSelected("search")
+                navController.navigate("search")}
+        )
 
-        NavItem(
-            "보관함",
-            R.drawable.ic_bottom_bar_folder_24,
-            selectedTab == 4
-        ) { onTabSelected(4) }
+        NavItem("보관함",
+            iconRes = R.drawable.ic_bottom_bar_folder_24,
+            isSelected = selectedTab == "save",
+            onClick = {
+                onTabSelected("save")
+                navController.navigate("save")
+            }
+        )
     }
 }
 @Composable
@@ -374,8 +457,13 @@ fun NavItem(
 fun PreviewMainScreen() {
     MaterialTheme {
         Scaffold(
-            bottomBar = { BottomNavigationBar( selectedTab = 0,
-                onTabSelected = {}) }
+            bottomBar = {
+                BottomNavigationBar(
+                    navController = rememberNavController(),
+                    selectedTab = "main",
+                    onTabSelected = {}
+                )
+            }
         ) { padding ->
             MainScreen(modifier = Modifier.padding(padding))
         }
