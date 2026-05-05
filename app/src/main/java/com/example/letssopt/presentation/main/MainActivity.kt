@@ -1,6 +1,5 @@
-package com.example.letssopt
+package com.example.letssopt.presentation.main
 
-import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -20,7 +19,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -49,7 +47,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.letssopt.ui.theme.LETSSOPTTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.platform.LocalContext
@@ -57,6 +54,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.letssopt.R
+import com.example.letssopt.presentation.home.HomeScreen
+import com.example.letssopt.presentation.home.TopBar
+import com.example.letssopt.presentation.login.AUTO_LOGIN
+import com.example.letssopt.presentation.login.LoginScreen
+import com.example.letssopt.presentation.login.USER_ID_KEY
+import com.example.letssopt.presentation.login.USER_PW_KEY
+import com.example.letssopt.presentation.signup.SignUpScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,7 +92,7 @@ class MainActivity : ComponentActivity() {
                         composable("login") {
                             val context = LocalContext.current
                             val pref =
-                                context.getSharedPreferences("login_prefs", Context.MODE_PRIVATE)
+                                context.getSharedPreferences("login_prefs", MODE_PRIVATE)
 
                             LoginScreen(
                                 onSignUpClick = {
@@ -143,7 +148,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("main") {
-                                MainScreen()
+                                HomeScreen()
                             }
                         composable("category") { CategoryScreen(PaddingValues(0.dp)) }
 
@@ -158,9 +163,8 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(modifier: Modifier = Modifier) {
 
     val viewModel: MainViewModel = viewModel()
 
@@ -170,31 +174,8 @@ fun MainScreen(modifier: Modifier = Modifier) {
             .background(Color.Black)
             .verticalScroll(rememberScrollState())
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(end = 20.dp)
-                .padding(vertical = 23.dp),
-            horizontalArrangement = Arrangement.spacedBy(14.dp, Alignment.End)
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_top_watch),
-                contentDescription = null,
-                tint = Color.Unspecified,
-            )
-
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_top_notic),
-                contentDescription = null,
-                tint = Color.Unspecified,
-            )
-
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_top_profile),
-                contentDescription = null,
-                tint = Color.Unspecified,
-            )
-        }
+        TopBar()
+    }
 
         Spacer(modifier = Modifier.height(47.dp))
 
@@ -255,11 +236,11 @@ fun MainScreen(modifier: Modifier = Modifier) {
         )
         {
             Text(
-            text = "예능부터 드라마까지!",
-            fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
-            fontWeight = FontWeight.SemiBold,
-            color = Color(0xFFBABAC1),
-            fontSize = 20.sp
+                text = "예능부터 드라마까지!",
+                fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
+                fontWeight = FontWeight.SemiBold,
+                color = Color(0xFFBABAC1),
+                fontSize = 20.sp
             )
 
             Text(
@@ -334,7 +315,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
             }
         }
     }
-}
+
 @Composable
 fun CategoryScreen(padding : PaddingValues) {
     Text(
@@ -374,11 +355,17 @@ fun SaveScreen(padding: PaddingValues) {
 fun BottomNavigationBar(
     navController: NavHostController,
     selectedTab: String,
-    onTabSelected: (String) -> Unit
+    onTabSelected: (String) -> Unit,
 )
 {
-    Row{
-        NavItem("메인",
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 30.dp),
+        horizontalArrangement = Arrangement.spacedBy(43.dp)
+    ) {
+        NavItem(
+            text = "메인",
             iconRes = R.drawable.ic_bottom_bar_main_24,
             isSelected = selectedTab == "main",
             onClick = {
@@ -387,17 +374,19 @@ fun BottomNavigationBar(
             }
         )
 
-        NavItem("개별구매",
-            iconRes = R.drawable.ic_bottom_bar_category_24,
-            isSelected = selectedTab == "category",
+        NavItem(
+            text="개별구매",
+            iconRes = R.drawable.ic_bottom_bar_purchase_24,
+            isSelected = selectedTab == "purchase",
             onClick = {
-                onTabSelected("category")
-                navController.navigate("category")
+                onTabSelected("purchase")
+                navController.navigate("purchase")
             }
         )
 
-        NavItem("웹툰",
-            iconRes = R.drawable.ic_bottom_bar_wallet_24,
+        NavItem(
+            text = "웹툰",
+            iconRes = R.drawable.ic_bottom_bar_webtoon_24,
             isSelected = selectedTab == "webtoon",
             onClick = {
                 onTabSelected("webtoon")
@@ -405,7 +394,8 @@ fun BottomNavigationBar(
             }
         )
 
-        NavItem("찾기",
+        NavItem(
+            text = "찾기",
             iconRes = R.drawable.ic_bottom_bar_search_24,
             isSelected = selectedTab == "search",
             onClick = {
@@ -413,8 +403,9 @@ fun BottomNavigationBar(
                 navController.navigate("search")}
         )
 
-        NavItem("보관함",
-            iconRes = R.drawable.ic_bottom_bar_folder_24,
+        NavItem(
+            text = "보관함",
+            iconRes = R.drawable.ic_bottom_bar_save_24,
             isSelected = selectedTab == "save",
             onClick = {
                 onTabSelected("save")
@@ -425,13 +416,14 @@ fun BottomNavigationBar(
 }
 @Composable
 fun NavItem(
+    modifier: Modifier = Modifier,
     text: String,
     @DrawableRes iconRes: Int,
     isSelected: Boolean,
     onClick:() -> Unit)
     {
     Column(
-        modifier = Modifier.clickable { onClick() },
+        modifier = modifier.clickable { onClick() },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(7.dp)
             )
@@ -465,7 +457,7 @@ fun PreviewMainScreen() {
                 )
             }
         ) { padding ->
-            MainScreen(modifier = Modifier.padding(padding))
+            HomeScreen(modifier = Modifier.padding(padding))
         }
     }
 }

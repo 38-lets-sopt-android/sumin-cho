@@ -1,6 +1,7 @@
-package com.example.letssopt
+package com.example.letssopt.presentation.main
 
 import androidx.lifecycle.ViewModel
+import com.example.letssopt.R
 
 data class BannerItem(
     val image: Int

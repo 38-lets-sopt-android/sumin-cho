@@ -1,4 +1,4 @@
-package com.example.letssopt
+package com.example.letssopt.presentation.signup
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,13 +6,30 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -25,60 +42,26 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.letssopt.R
 import com.example.letssopt.ui.theme.LETSSOPTTheme
 
-const val USER_ID_KEY = "userId"
-const val USER_PW_KEY = "userPw"
-const val AUTO_LOGIN = "autoLogin"
-
-class LoginActivity : ComponentActivity() {
-    private val pref by lazy {
-        getSharedPreferences("login_prefs", MODE_PRIVATE)
-    }
-
+class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val isAutoLogin = pref.getBoolean(AUTO_LOGIN, false)
-
-        if (isAutoLogin) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-            return
-        }
+        enableEdgeToEdge()
         setContent {
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LoginScreen(
+                    SignUpScreen(
                         modifier = Modifier.padding(innerPadding),
-
-                        onSignUpClick = {
-                            val intent = Intent(this, SignUpActivity::class.java)
-                            startActivity(intent)
-                        },
-
-                        onLoginClick = { inputId, inputPw ->
-                            val savedId = pref.getString(USER_ID_KEY, null)
-                            val savedPw = pref.getString(USER_PW_KEY, null)
-
-                            when {
-                                savedId == null || savedPw == null -> {
-                                    Toast.makeText(this, "회원가입을 먼저 해주세요", Toast.LENGTH_SHORT).show()
-                                }
-
-                                inputId == savedId && inputPw == savedPw -> {
-                                    val editor = pref.edit()
-                                    editor.putBoolean(AUTO_LOGIN, true)
-                                    editor.apply()
-
-                                    val intent = Intent(this, MainActivity::class.java)
-                                    Toast.makeText(this, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
-                                    startActivity((intent))
-                                    finish()
-                                }
-
-                                else -> Toast.makeText(this, "다시 입력해주세요", Toast.LENGTH_SHORT).show()
+                        onSignUpComplete = { userId, userPw ->
+                            val resultIntent = Intent().apply {
+                                putExtra("userId", userId)
+                                putExtra("userPw", userPw)
                             }
-                        }
+                            setResult(RESULT_OK, resultIntent)
+                            finish()
+                        },
                     )
                 }
             }
@@ -87,24 +70,26 @@ class LoginActivity : ComponentActivity() {
 }
 
 @Composable
-fun LoginScreen(
-    modifier: Modifier = Modifier,
-    onSignUpClick: () -> Unit,
-    onLoginClick: (String, String) -> Unit,
+fun SignUpScreen(
+    modifier: Modifier= Modifier,
+    onSignUpComplete: (String, String)-> Unit
 ) {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-
+    var checkPassword by remember { mutableStateOf("") }
     val context = LocalContext.current
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(scrollState)
             .background(Color.Black)
             .padding(horizontal = 20.dp)
             .padding(top = 60.dp, bottom = 26.dp)
     ) {
+
         Text(
             text = "watcha",
             fontFamily = FontFamily(Font(R.font.pretendard_bold)),
@@ -118,7 +103,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(26.dp))
 
         Text(
-            text = "이메일로 로그인",
+            text = "회원가입",
             fontFamily = FontFamily(Font(R.font.pretendard_bold)),
             fontWeight = FontWeight.Bold,
             color = Color.White,
@@ -147,13 +132,11 @@ fun LoginScreen(
                 color = Color(0xFFFFFFFF)
             ),
             placeholder = {
-                Text(
-                    text = "이메일 주소를 입력하세요",
-                    color = Color(0xFF666666),
+                Text("이메일 주소를 입력하세요",
+                    color = Color(0xFF666666) ,
                     fontFamily = FontFamily(Font(R.font.pretendard_regular)),
                     fontWeight = FontWeight.Normal,
-                    fontSize = 14.sp
-                )
+                    fontSize = 14.sp)
             },
             modifier = Modifier
                 .fillMaxWidth(),
@@ -188,13 +171,51 @@ fun LoginScreen(
                 color = Color(0xFFFFFFFF)
             ),
             placeholder = {
-                Text(
-                    text = "비밀번호를 입력하세요",
+                Text("비밀번호를 입력하세요",
                     color = Color(0xFF666666),
                     fontFamily = FontFamily(Font(R.font.pretendard_regular)),
                     fontWeight = FontWeight.Normal,
-                    fontSize = 14.sp
-                )
+                    fontSize = 14.sp)
+            },
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(8.dp),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color(0xFF2A2A2A),
+                unfocusedContainerColor = Color(0xFF2A2A2A),
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            )
+        )
+
+        Spacer(modifier = Modifier.height(18.dp))
+
+        Text(
+            text = "비밀번호 확인",
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            fontWeight = FontWeight.Normal,
+            color = Color(0xFF999999),
+            fontSize = 14.sp,
+        )
+
+        Spacer(modifier = Modifier.height(3.dp))
+
+        TextField(
+            value = checkPassword,
+            onValueChange = { checkPassword= it },
+            textStyle = TextStyle(
+                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp,
+                color = Color(0xFFFFFFFF)
+            ),
+            placeholder = {
+                Text("비밀번호를 다시 입력하세요",
+                    color = Color(0xFF666666),
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 14.sp)
             },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
@@ -210,47 +231,47 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Text(
-            text = "아직 계정이 없으신가요? 회원가입",
-            color = Color(0xFF999999),
-            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-            fontWeight = FontWeight.Normal,
-            fontSize = 14.sp,
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { onSignUpClick() },
-            textAlign = TextAlign.Center
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
         Button(
-            onClick = { onLoginClick(email, password) },
+            onClick = {
+                when{
+                    !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
+                        Toast.makeText(context, "올바른 이메일 형식이 아닙니다", Toast.LENGTH_SHORT).show()
+                    }
+                    password.length < 8 || password.length > 12 -> {
+                        Toast.makeText(context, "비밀번호는 8~12글자 사이로 입력해주세요", Toast.LENGTH_SHORT).show()
+                    }
+                    password != checkPassword -> {
+                        Toast.makeText(context, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        onSignUpComplete(email, password)
+                        Toast.makeText(context, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth(),
-            contentPadding = PaddingValues(vertical = 17.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE8003C)),
+                contentPadding = PaddingValues(vertical = 17.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFE8003C)
+            ),
             shape = RoundedCornerShape(8.dp)
         ) {
             Text(
-                text = "로그인",
+                text = "회원가입",
                 fontFamily = FontFamily(Font(R.font.pretendard_bold)),
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 fontSize = 16.sp
             )
         }
-
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewLoginScreen() {
+private fun PreviewSignUpScreen() {
     MaterialTheme {
-        LoginScreen(
-            onSignUpClick = {},
-            onLoginClick = { _, _ -> }
-        )
+        SignUpScreen(onSignUpComplete = { _, _ -> })
     }
 }
