@@ -1,18 +1,26 @@
 package com.example.letssopt.presentation.home
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -23,7 +31,13 @@ import com.example.letssopt.R
 
 @Composable
 fun WatchaParty(modifier: Modifier = Modifier)
-{
+{   val images = listOf(
+    R.drawable.img_watchaparty_1,
+    R.drawable.img_watchaparty_2,
+    R.drawable.img_watchaparty_3,
+    R.drawable.img_watchaparty_4,
+    R.drawable.img_watchaparty_5
+)
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -50,17 +64,25 @@ fun WatchaParty(modifier: Modifier = Modifier)
     Spacer(modifier = Modifier.height(8.dp))
 
     LazyRow(
-        modifier = Modifier.padding(bottom = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(horizontal = 8.dp)
-    ){
-        item {
-            Column {
-                // image 넣기
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(horizontal = 8.dp)
+        ) {
+            items(images) { imageRes ->
+                Box(
+                    modifier = Modifier
+                        .size(width = 196.dp, height = 185.dp)
+                        .background(Color(0xFF2A2A2A))
+                ) {
+                    Image(
+                        painter = painterResource(id = imageRes),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(bottom = 47.dp)
+                    )
+                }
             }
         }
-    }
-
 }
 
 @Preview(showBackground = true)
