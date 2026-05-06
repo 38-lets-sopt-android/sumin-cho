@@ -24,22 +24,27 @@ fun BottomNavigationBar() {
     ) {
         NavItem(
            text = "메인",
-           iconRes = R.drawable.ic_bottom_bar_main_24)
+           iconRes = R.drawable.ic_bottom_bar_main_24
+        )
 
         NavItem(
             text = "개별 구매",
-            iconRes = R.drawable.ic_bottom_bar_purchase_24)
+            iconRes = R.drawable.ic_bottom_bar_purchase_24
+        )
 
         NavItem(
             text = "웹툰",
-            iconRes = R.drawable.ic_bottom_bar_webtoon_24)
+            iconRes = R.drawable.ic_bottom_bar_webtoon_24
+        )
 
         NavItem(
             text = "찾기",
-            iconRes = R.drawable.ic_bottom_bar_search_24)
+            iconRes = R.drawable.ic_bottom_bar_search_24
+        )
 
         NavItem(
             text = "보관함",
-            iconRes = R.drawable.ic_bottom_bar_save_24)
+            iconRes = R.drawable.ic_bottom_bar_save_24
+        )
     }
 }

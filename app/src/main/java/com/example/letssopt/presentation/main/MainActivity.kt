@@ -1,5 +1,6 @@
 package com.example.letssopt.presentation.main
 
+import android.media.Image
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -416,11 +417,12 @@ fun BottomNavigationBar(
 }
 @Composable
 fun NavItem(
-    modifier: Modifier = Modifier,
     text: String,
     @DrawableRes iconRes: Int,
-    isSelected: Boolean,
-    onClick:() -> Unit)
+    modifier: Modifier = Modifier,
+    isSelected: Boolean = false,
+    onClick:() -> Unit = {}
+)
     {
     Column(
         modifier = modifier.clickable { onClick() },
@@ -429,7 +431,8 @@ fun NavItem(
             )
     {
         Icon(
-            painter = painterResource(id = iconRes),
+            //painter = painterResource(id = iconRes),
+            imageVector = ImageVector.vectorResource(id = iconRes),
             contentDescription = null,
             tint = if (isSelected) Color.White else Color(0xFF333333)
         )
