@@ -44,16 +44,16 @@ fun UpcomingContentSection(
     ) {
         Text(
             text = "공개 예정 콘텐츠",
-            fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
-            fontWeight = FontWeight.SemiBold,
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            fontWeight = FontWeight.Normal,
             color = Color.White,
             fontSize = 20.sp
         )
 
         Text(
             text = "더보기",
-            fontFamily = FontFamily(Font(R.font.pretendard_light)),
-            fontWeight = FontWeight.Light,
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            fontWeight = FontWeight.Normal,
             color = Color(0xFF999999),
             fontSize = 12.sp
         )

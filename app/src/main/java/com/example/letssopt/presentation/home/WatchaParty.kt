@@ -41,6 +41,61 @@ import com.example.letssopt.R
 import com.example.letssopt.presentation.main.MainViewModel
 
 import androidx.compose.runtime.remember
+@Composable
+fun WatchaPartySection(
+    viewModel: MainViewModel
+) {
+    val watchaPartyList = viewModel.getWatchaPartyList()
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color(0xFF141414))
+    ) {
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Text(
+                text = "왓챠 파티",
+                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                fontWeight = FontWeight.Normal,
+                color = Color(0xFFFFFFFF),
+                fontSize = 20.sp
+            )
+
+            Text(
+                text = "더보기",
+                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                fontWeight = FontWeight.Normal,
+                color = Color(0xFF999999),
+                fontSize = 12.sp
+            )
+        }
+
+        Spacer(modifier = Modifier.height(7.dp))
+
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(horizontal = 8.dp)
+        ) {
+
+            items(viewModel.getWatchaPartyList()) { item ->
+
+                partyItem(
+                    image = item.image,
+                    startTime = item.startTime,
+                    tag = item.tag
+                )
+            }
+        }
+    }
+}
 
 @Composable
 fun partyItem(
@@ -52,7 +107,7 @@ fun partyItem(
     Box(
         modifier = Modifier
             .size(width = 200.dp, height = 190.dp)
-            .background(Color(0xFF2A2A2A))
+            .background(Color.Black)
     ) {
 
         Column {
@@ -76,58 +131,6 @@ fun partyItem(
                 color = Color.White,
                 fontSize = 12.sp
             )
-        }
-    }
-}
-
-@Composable
-fun WatchaPartySection(
-    viewModel: MainViewModel
-) {
-    val watchaPartyList = viewModel.getWatchaPartyList()
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color(0xFF141414))
-    ) {
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            Text(
-                text = "왓챠 파티",
-                color = Color.White,
-                fontSize = 20.sp
-            )
-
-            Text(
-                text = "더보기",
-                color = Color(0xFF999999),
-                fontSize = 12.sp
-            )
-        }
-
-        Spacer(modifier = Modifier.height(7.dp))
-
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(horizontal = 8.dp)
-        ) {
-
-            items(viewModel.getWatchaPartyList()) { item ->
-
-                partyItem(
-                    image = item.image,
-                    startTime = item.startTime,
-                    tag = item.tag
-                )
-            }
         }
     }
 }

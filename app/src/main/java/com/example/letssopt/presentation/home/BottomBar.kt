@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.R
 import com.example.letssopt.presentation.main.NavItem
@@ -19,7 +20,7 @@ fun BottomNavigationBar() {
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.Black)
-            .padding(vertical = 12.dp),
+            .padding(top = 15.dp, bottom = 12.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         NavItem(
@@ -47,4 +48,10 @@ fun BottomNavigationBar() {
             iconRes = R.drawable.ic_bottom_bar_save_24
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BottomNavigationBarPreview() {
+    BottomNavigationBar()
 }

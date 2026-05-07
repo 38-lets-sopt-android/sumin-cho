@@ -33,41 +33,47 @@ import androidx.compose.runtime.remember
 fun MainBannerSection(
     viewModel: MainViewModel
 ) {
-    Text(
-        modifier = Modifier.padding(start = 19.dp),
-        text = "방금 막 도착한 신상 컨텐츠",
-        fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
-        fontWeight = FontWeight.SemiBold,
-        color = Color.White,
-        fontSize = 20.sp
-    )
+    Column {
 
-    Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            modifier = Modifier.padding(start = 19.dp),
+            text = "방금 막 도착한 신상 컨텐츠",
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            fontWeight = FontWeight.Normal,
+            color = Color.White,
+            fontSize = 20.sp
+        )
 
-    Text(
-        modifier = Modifier.padding(start = 19.dp),
-        text = "예능부터 드라마까지!",
-        fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
-        fontWeight = FontWeight.SemiBold,
-        color = Color(0xFFBABAC1),
-        fontSize = 18.sp
-    )
 
-    Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
-    LazyRow(
-        modifier = Modifier.padding(bottom = 26.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(viewModel.getMainBannerList()) { item ->
-            Image(
-                painter = painterResource(id = item.image),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(280.dp, 160.dp)
-                    .clip(RoundedCornerShape(10.dp))
-            )
+
+        Text(
+            modifier = Modifier.padding(start = 19.dp),
+            text = "예능부터 드라마까지!",
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            fontWeight = FontWeight.Normal,
+            color = Color(0xFFBABAC1),
+            fontSize = 18.sp
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+
+        LazyRow(
+            modifier = Modifier.padding(bottom = 26.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(viewModel.getMainBannerList()) { item ->
+                Image(
+                    painter = painterResource(id = item.image),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(280.dp, 160.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                )
+            }
         }
     }
 }
