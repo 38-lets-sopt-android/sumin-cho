@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.sp
 import com.example.letssopt.R
 import com.example.letssopt.presentation.main.MainViewModel
 
+import androidx.compose.runtime.remember
+
 @Composable
 fun UpcomingContentSection(
     viewModel: MainViewModel
@@ -81,7 +83,7 @@ fun UpcomingContentSection(
 @Composable
 fun UpcomingContentSectionPreview() {
 
-    val fakeViewModel = MainViewModel()
+    val fakeViewModel = remember { MainViewModel() }
 
     Column(
         modifier = Modifier

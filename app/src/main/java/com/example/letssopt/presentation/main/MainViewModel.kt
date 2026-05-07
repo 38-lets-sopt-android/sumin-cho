@@ -6,6 +6,12 @@ import com.example.letssopt.R
 data class BannerItem(
     val image: Int
 )
+
+data class PartyItem(
+    val image: Int,
+    val startTime: String,
+    val tag: String
+)
 class MainViewModel: ViewModel(){
    private val mainbannerList = listOf(
        BannerItem(R.drawable.img_mainbannerlist_1),
@@ -32,6 +38,7 @@ class MainViewModel: ViewModel(){
     )
 
     fun getWhatgorithmeList() = whatgorithmeList
+
     private val releasedList = listOf(
         BannerItem(R.drawable.img_releasedlist_7),
         BannerItem(R.drawable.img_releasedlist_8),
@@ -48,4 +55,34 @@ class MainViewModel: ViewModel(){
     )
 
     fun getReleasedList() = releasedList
-}
+
+    private val watchaPartyList = listOf(
+        PartyItem(
+            image = R.drawable.img_watchaparty_1,
+            startTime = "(일) 오후 03:20 시작",
+            tag = "# SBS 인기가요"
+        ),
+        PartyItem(
+            image = R.drawable.img_watchaparty_2,
+            startTime = "(금) 오후 05:00 시작",
+            tag = "# 뮤직뱅크"
+        ),
+        PartyItem(
+            image = R.drawable.img_watchaparty_3,
+            startTime = "(토) 오후 03:20 시작",
+            tag = "# 쇼! 음악중심"
+        ),
+        PartyItem(
+            image = R.drawable.img_watchaparty_4,
+            startTime = "(목) 오후 06:00 시작",
+            tag = "# 엠카운트다운"
+        ),
+        PartyItem(
+            image = R.drawable.img_watchaparty_5,
+            startTime = "(수) 오후 05:00 시작",
+            tag = "# 쇼! 챔피언"
+        )
+    )
+
+    fun getWatchaPartyList() = watchaPartyList
+    }

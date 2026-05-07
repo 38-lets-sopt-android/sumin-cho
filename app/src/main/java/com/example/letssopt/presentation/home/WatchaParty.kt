@@ -38,6 +38,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.letssopt.R
+import com.example.letssopt.presentation.main.MainViewModel
+
+import androidx.compose.runtime.remember
+
 @Composable
 fun partyItem(
     @DrawableRes image: Int,
@@ -77,15 +81,10 @@ fun partyItem(
 }
 
 @Composable
-fun WatchaPartySection() {
-
-    val images = listOf(
-        R.drawable.img_watchaparty_1,
-        R.drawable.img_watchaparty_2,
-        R.drawable.img_watchaparty_3,
-        R.drawable.img_watchaparty_4,
-        R.drawable.img_watchaparty_5
-    )
+fun WatchaPartySection(
+    viewModel: MainViewModel
+) {
+    val watchaPartyList = viewModel.getWatchaPartyList()
 
     Column(
         modifier = Modifier
@@ -121,12 +120,12 @@ fun WatchaPartySection() {
             contentPadding = PaddingValues(horizontal = 8.dp)
         ) {
 
-            items(images.size) { index ->
+            items(viewModel.getWatchaPartyList()) { item ->
 
                 partyItem(
-                    image = images[index],
-                    startTime = "String",
-                    tag = "String"
+                    image = item.image,
+                    startTime = item.startTime,
+                    tag = item.tag
                 )
             }
         }
@@ -161,5 +160,10 @@ fun partyImageItem(
 @Preview(showBackground = true)
 @Composable
 private fun WatchaPartyPreview() {
-    WatchaPartySection()
+
+    val mainViewModel = remember { MainViewModel() }
+
+    WatchaPartySection(
+        viewModel = mainViewModel
+    )
 }
