@@ -1,6 +1,7 @@
 package com.example.letssopt.presentation.home
 
 import android.R.attr.height
+import android.R.attr.text
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -36,10 +38,47 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.letssopt.R
+@Composable
+fun partyItem(
+    @DrawableRes image: Int,
+    startTime: String,
+    tag: String
+) {
+
+    Box(
+        modifier = Modifier
+            .size(width = 200.dp, height = 190.dp)
+            .background(Color(0xFF2A2A2A))
+    ) {
+
+        Column {
+
+            partyImageItem(image)
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            Text(
+                text = startTime,
+                modifier = Modifier.padding(start = 8.dp),
+                color = Color(0xFFE8003C),
+                fontSize = 12.sp
+            )
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            Text(
+                text = tag,
+                modifier = Modifier.padding(start = 8.dp),
+                color = Color.White,
+                fontSize = 12.sp
+            )
+        }
+    }
+}
 
 @Composable
-fun WatchaParty(modifier: Modifier = Modifier)
-{
+fun WatchaPartySection() {
+
     val images = listOf(
         R.drawable.img_watchaparty_1,
         R.drawable.img_watchaparty_2,
@@ -47,54 +86,48 @@ fun WatchaParty(modifier: Modifier = Modifier)
         R.drawable.img_watchaparty_4,
         R.drawable.img_watchaparty_5
     )
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = Color.Black)
+            .background(Color(0xFF141414))
     ) {
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
+
             Text(
-                text = "공개 예정 콘텐츠",
-                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                fontWeight = FontWeight.Normal,
+                text = "왓챠 파티",
                 color = Color.White,
                 fontSize = 20.sp
             )
 
             Text(
                 text = "더보기",
-                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                fontWeight = FontWeight.Normal,
                 color = Color(0xFF999999),
                 fontSize = 12.sp
             )
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(7.dp))
 
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(horizontal = 8.dp)
         ) {
-            items(images) { imageRes ->
-                Box(
-                    modifier = Modifier
-                        .size(width = 196.dp, height = 185.dp)
-                        .background(Color(0xFF2A2A2A))
-                ) {
-                    Image(
-                        painter = painterResource(id = imageRes),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .padding(bottom = 47.dp)
-                    )
-                }
+
+            items(images.size) { index ->
+
+                partyItem(
+                    image = images[index],
+                    startTime = "String",
+                    tag = "String"
+                )
             }
         }
     }
@@ -105,7 +138,6 @@ fun partyImageItem(
 ) {
     Box(
         modifier = Modifier.size(height = 140.dp,width = 200.dp)
-
     ){
         Image(
             painter = painterResource(id=image),
@@ -129,7 +161,5 @@ fun partyImageItem(
 @Preview(showBackground = true)
 @Composable
 private fun WatchaPartyPreview() {
-    partyImageItem(
-        image= R.drawable.img_watchaparty_1
-    )
+    WatchaPartySection()
 }
