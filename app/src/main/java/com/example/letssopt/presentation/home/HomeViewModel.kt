@@ -1,4 +1,4 @@
-package com.example.letssopt.presentation.main
+package com.example.letssopt.presentation.home
 
 import androidx.lifecycle.ViewModel
 import com.example.letssopt.R
@@ -12,7 +12,7 @@ data class PartyItem(
     val startTime: String,
     val tag: String
 )
-class MainViewModel: ViewModel(){
+class HomeViewModel: ViewModel(){
    private val mainbannerList = listOf(
        BannerItem(R.drawable.img_mainbannerlist_1),
        BannerItem(R.drawable.img_mainbannerlist_2),

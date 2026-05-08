@@ -1,6 +1,5 @@
-package com.example.letssopt.presentation.home
+package com.example.letssopt.presentation.main
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

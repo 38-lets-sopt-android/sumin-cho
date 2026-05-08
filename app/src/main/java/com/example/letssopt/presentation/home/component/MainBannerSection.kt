@@ -1,13 +1,10 @@
-package com.example.letssopt.presentation.home
+package com.example.letssopt.presentation.home.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -28,60 +25,62 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.letssopt.R
-import com.example.letssopt.presentation.main.MainViewModel
+import com.example.letssopt.presentation.home.MainViewModel
 
 import androidx.compose.runtime.remember
 
 @Composable
-fun UpcomingContentSection(
+fun MainBannerSection(
     viewModel: MainViewModel
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
+    Column {
+
         Text(
-            text = "공개 예정 콘텐츠",
+            modifier = Modifier.padding(start = 19.dp),
+            text = "방금 막 도착한 신상 컨텐츠",
             fontFamily = FontFamily(Font(R.font.pretendard_regular)),
             fontWeight = FontWeight.Normal,
             color = Color.White,
             fontSize = 20.sp
         )
 
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+
         Text(
-            text = "더보기",
+            modifier = Modifier.padding(start = 19.dp),
+            text = "예능부터 드라마까지!",
             fontFamily = FontFamily(Font(R.font.pretendard_regular)),
             fontWeight = FontWeight.Normal,
-            color = Color(0xFF999999),
-            fontSize = 12.sp
+            color = Color(0xFFBABAC1),
+            fontSize = 18.sp
         )
-    }
 
-    Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
-    LazyRow(
-        modifier = Modifier.padding(bottom = 23.dp),
-        horizontalArrangement = Arrangement.spacedBy(13.dp),
-        contentPadding = PaddingValues(horizontal = 8.dp)
-    ) {
-        items(viewModel.getReleasedList()) { item ->
-            Image(
-                painter = painterResource(id = item.image),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(103.dp, 153.dp)
-                    .clip(RoundedCornerShape(10.dp))
-            )
+
+        LazyRow(
+            modifier = Modifier.padding(bottom = 26.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(viewModel.getMainBannerList()) { item ->
+                Image(
+                    painter = painterResource(id = item.image),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(280.dp, 160.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                )
+            }
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun UpcomingContentSectionPreview() {
+fun MainBannerSectionPreview() {
 
     val fakeViewModel = remember { MainViewModel() }
 
@@ -89,6 +88,6 @@ fun UpcomingContentSectionPreview() {
         modifier = Modifier
             .background(Color.Black)
     ) {
-        UpcomingContentSection(viewModel = fakeViewModel)
+        MainBannerSection(viewModel = fakeViewModel)
     }
 }

@@ -1,4 +1,4 @@
-package com.example.letssopt.presentation.home
+package com.example.letssopt.presentation.home.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -31,7 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.letssopt.R
-import com.example.letssopt.presentation.main.MainViewModel
+import com.example.letssopt.presentation.home.MainViewModel
 
 import androidx.compose.runtime.remember
 
