@@ -63,8 +63,6 @@ fun HomeScreen(){
             UpcomingContentSection(viewModel = viewModel)
             WatchaPartySection(viewModel = viewModel)
         }
-
-        BottomNavigationBar()
     }
 }
 

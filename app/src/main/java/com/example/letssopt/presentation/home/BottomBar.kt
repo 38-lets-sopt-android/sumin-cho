@@ -12,7 +12,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.R
-import com.example.letssopt.presentation.main.NavItem
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun BottomNavigationBar() {
@@ -46,6 +54,50 @@ fun BottomNavigationBar() {
         NavItem(
             text = "보관함",
             iconRes = R.drawable.ic_bottom_bar_save_24
+        )
+    }
+}
+
+@Composable
+fun NavItem(
+    text: String,
+    iconRes: Int,
+    isSelected: Boolean = false,
+    onClick: () -> Unit = {}
+) {
+
+    Column(
+        modifier = Modifier.clickable {
+            onClick()
+        },
+
+        horizontalAlignment =
+            Alignment.CenterHorizontally
+    ) {
+
+        Icon(
+            imageVector =
+                ImageVector.vectorResource(iconRes),
+
+            contentDescription = text,
+
+            tint =
+                if (isSelected)
+                    Color.White
+                else
+                    Color(0xFF333333)
+        )
+
+        Text(
+            text = text,
+
+            color =
+                if (isSelected)
+                    Color.White
+                else
+                    Color(0xFF333333),
+
+            fontSize = 12.sp
         )
     }
 }
